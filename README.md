@@ -61,10 +61,21 @@ The regression model predicts the AI Impact percentage for each job.
 ### 2. Risk Classification
 **Model:** RandomForestClassifier
 
-Jobs are categorized into three AI risk levels:
-- **Low:** 0–50
-- **Medium:** 50–70
-- **High:** 70–100
+Jobs are grouped into AI risk categories based on the intensity of expected AI-driven automation:
+
+- **Low Risk:** Roles where AI impact is limited and mainly supportive  
+- **Medium Risk:** Roles likely to be partially automated or significantly transformed  
+- **High Risk:** Roles with a high likelihood of extensive automation or replacement  
+
+
+
+The classifier uses both numerical and categorical features:
+- Numerical: `Tasks`, `AI models`, `AI_Workload_Ratio`
+- Categorical: `Job titiles`, `Domain`
+
+A preprocessing pipeline is applied, including feature scaling for numerical variables and one-hot encoding for categorical variables, followed by a Random Forest classifier.
+
+The purpose of this step is to move from continuous risk estimation to **interpretable risk groups**, making the results easier to analyze and compare across jobs.
 
 **Output file:**  
 `model_risk_predictions.csv`
@@ -93,15 +104,15 @@ For jobs classified as **high risk**, a recommender system suggests alternative 
 
 ### 4. Job Resilience Index
 
-Using predicted AI Impact values:
+The Job Resilience Index is designed to quantify how well a job can withstand AI-driven automation over time.
 
-**Job_Resilience_Score = 100 − Predicted_AI_Impact**
+It is derived from the predicted AI Impact score, where lower AI impact implies higher resilience.  
+Rather than focusing solely on automation risk, this index highlights roles that are more adaptable, flexible, and less susceptible to full automation.
 
-This score represents how resistant a job is to AI-driven automation.
+The score enables meaningful comparisons across jobs and domains, helping identify roles that are more likely to remain relevant in the long term.
 
 **Output file:**  
 `job_model_resilience_index.csv`
-
 ---
 
 ## Installation
